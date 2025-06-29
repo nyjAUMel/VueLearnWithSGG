@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        单向数据绑定：<input type="text" v-bind:value="name">
+        <br>
+        <!-- v-model只能用在表单类元素(可输入类元素上)上 -->
+        双向数据绑定：<input type="text" v-model:value="name">
+
+        <hr>
+        
+        <!-- 简写 -->
+        单向数据绑定：<input type="text" :value="name">
+        <br>
+        双向数据绑定：<input type="text" v-model="name">
+    </div>
+
+    <script>
+        new Vue({
+            el: '#root',
+            data: {
+                name: 'Sheldon'
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let number = 19;
+      let person = {
+        name: "张三",
+        sex: "男",
+      };
+
+      /*
+      Object.defineProperty() 方法用于在一个对象上定义一个或多个新的属性，或者修改现有属性的配置。它接受三个参数：
+          目标对象（obj）：要在其上定义或修改属性的对象。
+          属性名（propName）：要定义或修改的属性的名称。
+          属性描述符（descriptor）：一个描述属性特性的对象。它可以包含 value（属性值）、writable（是否可修改）、enumerable（是否可枚举）、configurable（是否可重新配置等）。
+      */
+      Object.defineProperty(person, "age", {
+        
+        /* value: 28,
+        // 控制属性是否可以枚举
+        enumerable: true, // 默认false
+        // 控制属性是否可以被修改
+        writable: true, // 默认false
+        // 控制属性是否可以被删除
+        configurable: true, // 默认false */
+
+
+
+        // 当该属性(age)被读取时，get函数就会被自动调用，且返回该属性(age)的值
+        get: function () {
+          return number;
+        },
+        // 当该属性(age)被修改时，get函数就会被自动调用，且会受到修改的具体值
+        set(value) {
+                console.log('修改后的值为：' + value)
+                number = value
+        }
+      });
+
+      console.log(person);
+      console.log(Object.keys(person));
+    </script>
+  </body>
+</html>
