@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+    <style>
+      * {
+        margin-top: 10px;
+      }
+      .demo1 {
+        background-color: pink;
+        height: 80px;
+      }
+      .box1 {
+        height: 150px;
+        background-color: grey;
+      }
+      .box2 {
+        height: 100px;
+        background-color: blue;
+      }
+      .box3 {
+        height: 50px;
+        background-color: red;
+      }
+      .list {
+        width: 200px;
+        height: 200px;
+        background-color: peru;
+        overflow: auto;
+      }
+      li {
+        height: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 
+    Vue中的事件修饰符:
+        1.prevent:阻止默认事件(常用);
+        2.stop:阻止事件冒泡(常用);
+        3.once:事件只触发一次(常用);
+        4.capture:使用事件的捕获模式;
+        5.self:只有event.target是当前操作的元素时才触发事件;
+        6.passive:事件的默认行为立即执行,无需等待事件回调执行完毕;
+    -->
+    <div id="root">
+      <!-- @click.prevent阻止标签的默认行为 -->
+      <a href="https://www.baidu.com" @click.prevent="showInfo">点击提示信息</a>
+      <!-- 阻止事件冒泡 -->
+      <div class="demo1" @click="showInfo">
+        <button @click.stop="showInfo">点击提示信息</button>
+      </div>
+      <!-- 事件只触发一次 -->
+      <button @click.once="showInfo">点击提示信息</button>
+      <!-- 
+         使用事件的捕获模式(表示事件在捕获阶段就触发)
+            如果采用默认的冒泡，那么会先输出2再输出1
+          -->
+      <div class="box1" @click.capture="showMsg(1)">
+        外面的盒子
+        <div class="box2" @click="showMsg(2)">
+          中间的盒子
+          <div class="box3" @click="showMsg(3)">里面的盒子</div>
+        </div>
+      </div>
+      <!-- 
+      只有event.target是当前操作的元素时才触发事件;
+        表示触发点击事件且是这个div时才会执行这个方法。原来的冒泡冒泡上来。
+       -->
+       <div class="demo1" @click="showInfo">
+        <button @click="showInfo">点击提示信息</button>
+      </div>
+
+      <!-- passive:事件的默认行为立即执行,无需等待事件回调执行完毕; -->
+       <ul @scroll="demo" class="list">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+       </ul>
+    </div>
+
+    <script>
+      new Vue({
+        el: "#root",
+        data: {},
+        methods: {
+          showInfo(e) {
+            alert("你好");
+            console.log(e.target)
+          },
+          showMsg(num) {
+            console.log(num);
+          },
+          demo() {
+            for (let index = 0; index < 1000; index++) {
+              console.log('@')
+            }
+          }
+        },
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+  </head>
+  <body>
+    <!-- 
+    
+     -->
+    <div id="root">
+      <h2>it is {{info}} today</h2>
+      <button @click="changeWeather">切换天气</button>
+    </div>
+
+    <script>
+      const vm = new Vue({
+        el: "#root",
+        data: {
+          isHot: true,
+        },
+        computed: {
+          info: {
+            get() {
+              return this.isHot ? "炎热" : "凉爽";
+            },
+          },
+        },
+        methods: {
+          changeWeather() {
+            this.isHot = !this.isHot;
+          },
+        },
+        watch: {
+          // 完整的写法
+          /* isHot: {
+            immediate: true,
+            handler(newVal, oldVal) {
+              console.log("isHot修改了");
+            },
+          }, */
+          /*
+          简写形式：
+            当配置项当中只有hanlder时可以简写
+          */
+          /* isHot(newVal, oldVal) {
+            console.log("isHot修改了");
+          }, */
+        },
+      });
+
+      // 另一种监视属性的完整的写法
+      /* vm.$watch("isHot", {
+        immediate: true,
+        handler(newVal, oldVal) {
+          console.log("isHot修改了");
+        },
+      }); */
+
+      // 简写(同理也只能简写handler，有别的就不能简写了)
+      vm.$watch("isHot", function (newVal, oldVal) {
+        console.log("isHot修改了");
+      });
+    </script>
+  </body>
+</html>
