@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <!-- 
+    条件渲染:
+        1.v-if
+            写法:
+            (1).v-if="表达式”
+            (2).v-else-if="表达式”
+            (3).v-else="表达式”
+            适用于:切换频率较低的场景。
+            特点:不展示的DOM元素直接被移除。
+            注意:v-if可以和:v-else-if、v-else一起使用,但要求结构不能被“打断”。
+
+        2.v-show
+            写法:v-show="表达式”
+            适用于:切换频率较高的场景。
+            特点:不展示的DOM元素未被移除,仅仅是使用样式隐藏掉
+
+        3.备注:使用v-if的时,元素可能无法获取到,而使用v-show一定可以获取到。
+    -->
+    <div id="root">
+        <!-- 使用v-show做条件渲染(隐藏标签) -->
+        <h2 v-show="false">{{name}}</h2>
+
+        <!-- 使用v-if做条件渲染(删除标签) -->
+        <h2 v-show="false">{{name}}</h2>
+
+        <button @click="n++">点击n+1</button>
+        <h2 v-if="n === 1">Angular</h2>
+        <!-- 中间不能分开，否则就报错 -->
+        <h2 v-else-if="n === 2">Angular</h2>
+        <h2 v-else-if="n === 3">Vue</h2>
+        <h2 v-else>TypeScript</h2>
+
+        <!-- 渲染时template模板会消失掉。值得注意的是：template只能和v-if配合使用 -->
+        <template v-if="n===1">
+            <h2>Hello</h2>
+            <h2>Cooper</h2>
+            <h2>Lee</h2>
+        </template>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false
+    new Vue({
+        el: '#root',
+        data: {
+            name: 'Sheldon',
+            n: 0
+        },
+    })
+</script>
+
+</html>
