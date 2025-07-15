@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+
+    <div id="root">
+        <h2>人员列表</h2>
+        <input type="text" placeholder="请输入名字" v-model="keyWord">
+        <button @click="sortType = 2">年龄升序</button>
+        <button @click="sortType = 1">年龄降序</button>
+        <button @click="sortType = 0">原顺序</button>
+        <ul>
+            <li v-for="(item, index) of newPersons" :key="index">
+                {{item.name}} - {{item.age}} - {{item.gender}}
+            </li>
+        </ul>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false
+
+    new Vue({
+        el: '#root',
+        data: {
+            keyWord: '',
+            sortType: 0, // 0原顺序 1降序 2升序
+            persons: [
+                { "name": "张伟", "gender": "male", "age": 32 },
+                { "name": "王芳", "gender": "female", "age": 28 },
+                { "name": "李于", "gender": "male", "age": 25 },
+                { "name": "刘洋", "gender": "male", "age": 30 },
+                { "name": "陈雪", "gender": "female", "age": 26 },
+                { "name": "张敏", "gender": "female", "age": 34 },
+                { "name": "王磊", "gender": "male", "age": 29 },
+                { "name": "李娜", "gender": "female", "age": 27 },
+                { "name": "刘婷", "gender": "female", "age": 31 },
+                { "name": "张勇", "gender": "male", "age": 33 },
+                { "name": "王芳", "gender": "female", "age": 24 },
+                { "name": "李伟", "gender": "male", "age": 28 },
+                { "name": "刘杰", "gender": "male", "age": 26 },
+                { "name": "陈丽", "gender": "female", "age": 30 },
+                { "name": "张娟", "gender": "female", "age": 35 }
+            ],
+        },
+        computed: {
+            newPersons() {
+                // 计算属性需要return
+                const newArr = this.persons.filter(person => { return person.name.indexOf(this.keyWord) !== -1 })
+                if (this.sortType) {
+                    return newArr.sort((a, b) => {
+                        return this.sortType === 1 ? b.age - a.age : a.age - b.age
+                    })
+                }
+                return newArr
+            }
+        }
+    })
+</script>
+
+</html>

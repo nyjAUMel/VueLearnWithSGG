@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+
+    <div id="root">
+        <h2>{{student.name}}</h2>
+        <h2>{{student.age.rAge}}</h2>
+        <h2>{{student.age.iAge}}</h2>
+        <h2>{{student.gender}}</h2>
+        <h2>{{student.hobby}}</h2>
+        <button @click="addProp">添加</button>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false
+
+    const vm = new Vue({
+        el: '#root',
+        data: {
+            student: {
+                name: 'Sheldon',
+                age: {
+                    rAge: 19,
+                    iAge: 9
+                }
+            }
+        },
+        methods: {
+            /*
+            Vue.set() 是一个用于向响应式对象中添加新属性的方法，并确保这个新属性同样是响应式的，从而触发视图更新。
+
+            使用场景
+                当需要给一个已经创建的 Vue 实例中的对象添加新的属性时，由于 JavaScript 的限制，直接通过 object.newKey = value 无法实现响应式更新。此时可以使用 Vue.set() 方法来解决这个问题。
+            */
+            // Vue.set(需要添加属性的目标对象或数组, 添加的属性名（对象）或索引（数组）,  属性对应的值)
+            addProp() {
+                Vue.set(this.student, 'gender', '男')
+                // 这两个是一样的效果
+                this.$set(this.student, 'hobby', 'Reading')
+
+                /* 
+                这两个方法都不能直接给实例对象追加属性
+                如：
+                    Vue.set(this, 'gender', '男')
+
+                    会报：Avoid adding reactive properties to a Vue instance or its root $data at runtime - declare it upfront in the data option.
+                */
+            }
+        }
+    })
+</script>
+
+</html>

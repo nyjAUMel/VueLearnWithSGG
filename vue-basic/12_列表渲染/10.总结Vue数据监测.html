@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <!-- 
+    Vue监视数据的原理:
+        1. vue会监视data中所有层次的数据。
+
+        2. 如何监测对象中的数据?
+                通过setter实现监视,且要在new Vue时就传入要监测的数据。
+                    (1).对象中后追加的属性,Vue默认不做响应式处理
+                    (2).如需给后添加的属性做响应式,请使用如下API:
+                            Vue.set(target, propertyName/index, value) 或
+                            vm(Vue实例).$set(target, propertyName/index, value)
+
+        3. 如何监测数组中的数据?
+                通过包裹数组更新元素的方法实现,本质就是做了两件事:
+                    (1).调用原生对应的方法对数组进行更新。
+                    (2).重新解析模板,进而更新页面。
+
+        4.在Vue修改数组中的某个元素一定要用如下方法:
+                1.使用这些API:push()、pop()、shift()、unshift()、splice()、sort()、reverse()
+                2.Vue.set()或 vm.$set()
+
+        特别注意:Vue.set()和vm.$set()不能给vm或 vm的根数据对象 添加属性 !!!
+    -->
+    <div id="root">
+        <h1>男孩信息</h1>
+
+        <button @click="boy.age++">点击年龄+1岁</button>
+        <button @click="addGender">添加性别属性，默认值：男</button>
+        <button @click="addFamily">在列表首位添加一个家人</button>
+        <button @click="updateFirstFamilyName">修改第一个人的名字为Connie</button>
+        <button @click="addHobby">添加一个爱好</button>
+        <button @click="modifyFirstHobby">修改第一个爱好为独处</button>
+        <button @click="removeHobby">过滤掉爱好中的科研</button>
+        <h3>姓名：{{boy.name}}</h3>
+        <h3>性别：{{boy.gender}}</h3>
+        <h3>年龄：{{boy.age}}</h3>
+        <h3>爱好：</h3>
+        <ul>
+            <li v-for="(hobby, index) in boy.hobbies" :key="index">{{hobby}}</li>
+        </ul>
+        <h3>家人们：</h3>
+        <ul>
+            <li v-for="(f, index) in boy.family" :key="index">{{f.name}} -- {{f.age}}</li>
+        </ul>
+    </div>
+
+    <script>
+        Vue.config.productionTip = false
+
+        const vm = new Vue({
+            el: '#root',
+            data: {
+                boy: {
+                    name: 'Sheldon',
+                    age: 18,
+                    hobbies: ['科研', '实验', '火车'],
+                    family: [
+                        { 'name': 'George Jr', 'age': 13 },
+                        { 'name': 'Missy', 'age': 9 }
+                    ]
+                }
+            },
+            methods: {
+                addGender() {
+                    // 定义时没有的属性这么加上不是响应式的，Vue不会渲染
+                    // this.boy.gender = '男'
+                    Vue.set(this.boy, 'gender', '男')
+                },
+                addFamily() {
+                    this.boy.family.unshift({ 'name': 'Marry', 'age': 37 })
+                },
+                updateFirstFamilyName() {
+                    // 这样是不行的，因为这样通过数组下标赋值Vue不会当作响应式的数据。
+                    // this.boy.family[0] = xxx
+
+                    // 这样可以是因为这操作的是数组里第一个对象的属性
+                    this.boy.family[0].name = 'Connie'
+                },
+                addHobby() {
+                    this.boy.hobbies.push('阅读')
+                },
+                modifyFirstHobby() {
+
+                    // this.boy.hobbies.splice(0, 1, '独处')
+                    // 或者
+                    // Vue.set(this.boy.hobbies, 0, '独处')
+                    // 或者
+                    this.$set(this.boy.hobbies, 0, '独处')
+                },
+                removeHobby() {
+                    // filter不会对原数组做出改变
+                    this.boy.hobbies = this.boy.hobbies.filter(h => {
+                        return h !== '科研'
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

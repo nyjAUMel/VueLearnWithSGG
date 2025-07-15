@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+
+    <div id="root">
+        <h2>人员列表</h2>
+        <input type="text" placeholder="请输入名字" v-model="keyWord">
+        <ul>
+            <li v-for="(item, index) of newPersons" :key="index">
+                {{item.name}} - {{item.gender}}
+            </li>
+        </ul>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false
+
+    // 监视属性实现
+    //#region
+    /* new Vue({
+        el: '#root',
+        data: {
+            keyWord: '',
+            persons: [
+                { "name": "张伟", "gender": "male" },
+                { "name": "王芳", "gender": "female" },
+                { "name": "李于", "gender": "male" },
+                { "name": "刘洋", "gender": "male" },
+                { "name": "陈雪", "gender": "female" },
+                { "name": "张敏", "gender": "female" },
+                { "name": "王磊", "gender": "male" },
+                { "name": "李娜", "gender": "female" },
+                { "name": "刘婷", "gender": "female" },
+                { "name": "张勇", "gender": "male" },
+                { "name": "王芳", "gender": "female" },
+                { "name": "李伟", "gender": "male" },
+                { "name": "刘杰", "gender": "male" },
+                { "name": "陈丽", "gender": "female" },
+                { "name": "张娟", "gender": "female" }
+            ],
+            newPersons: []
+        },
+
+        watch: {
+            keyWord: {
+                immediate: true,
+                handler(newVal, oldVal) {
+                    // includes()包含空串
+                    this.newPersons = this.persons.filter((person) => { return person.name.includes(newVal) })
+                }
+            }
+        }
+    })
+    // #endregion */
+
+    // 计算属性实现
+    new Vue({
+        el: '#root',
+        data: {
+            keyWord: '',
+            persons: [
+                { "name": "张伟", "gender": "male" },
+                { "name": "王芳", "gender": "female" },
+                { "name": "李于", "gender": "male" },
+                { "name": "刘洋", "gender": "male" },
+                { "name": "陈雪", "gender": "female" },
+                { "name": "张敏", "gender": "female" },
+                { "name": "王磊", "gender": "male" },
+                { "name": "李娜", "gender": "female" },
+                { "name": "刘婷", "gender": "female" },
+                { "name": "张勇", "gender": "male" },
+                { "name": "王芳", "gender": "female" },
+                { "name": "李伟", "gender": "male" },
+                { "name": "刘杰", "gender": "male" },
+                { "name": "陈丽", "gender": "female" },
+                { "name": "张娟", "gender": "female" }
+            ],
+        },
+        computed: {
+            newPersons() {
+                // 计算属性需要return
+                return this.persons.filter(person => { return person.name.indexOf(this.keyWord) !== -1 })
+            }
+        }
+    })
+</script>
+
+</html>

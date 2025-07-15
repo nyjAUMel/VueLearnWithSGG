@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <!-- 
+    v-pre指令:
+        1.跳过其所在节点的编译过程。
+        2.可利用它跳过:没有使用指令语法、没有使用插值语法的节点,会加快编译。
+     -->
+    <div id="root">
+        <h1 v-pre>山有木兮木有枝</h1>
+        <h1>当前的值是：{{n}}</h1>
+        <button @click="n++">单击n自增</button>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: '#root',
+        data: {
+            n: 0,
+        }
+    })
+</script>
+
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+
+    <div id="root">
+        <h2>人员列表</h2>
+        <button @click="updateOne">修改第一个人的信息</button>
+        <ul>
+            <li v-for="(item, index) of persons" :key="index">
+                {{item.name}} - {{item.age}} - {{item.gender}}
+            </li>
+        </ul>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false
+
+    new Vue({
+        el: '#root',
+        data: {
+            persons: [
+                { "name": "张伟", "gender": "male", "age": 32 },
+                { "name": "王芳", "gender": "female", "age": 28 },
+                { "name": "李于", "gender": "male", "age": 25 },
+                { "name": "刘洋", "gender": "male", "age": 30 },
+            ],
+        },
+        methods: {
+            updateOne() {
+                // 这样是生效的
+                /* this.persons[0].name = '王源'
+                this.persons[0].gender = 'male'
+                this.persons[0].age = 28 */
+
+                // 这样不生效
+                this.persons[0] = { "name": "王源", "gender": 'male', "age": 28 }
+            }
+        }
+    })
+</script>
+
+</html>
