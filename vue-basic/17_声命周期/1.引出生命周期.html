@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <div id="root">
+        <!-- 这里其实可以用JS的简写形式(属性名和属性值一样，可以省略一个) -->
+        <h2 :style="{opacity: opacity}">欢迎学习Vue</h2>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: '#root',
+        data: {
+            d: false,
+            opacity: 1,
+        },
+        /* 
+        Vue完成模板的解析并把初始的真是DOM元素放入页面后（挂载完毕）调用mounted
+
+        mounted() 是 Vue 生命周期中的一个钩子函数，它在实例第一次挂载到 DOM 后被调用。这个钩子 只会在挂载阶段调用一次，之后即使数据发生变化导致模板重新渲染，mounted() 也不会再次被调用。
+        */
+        mounted() {
+            setInterval(() => {
+                this.opacity -= 0.1
+                this.opacity = this.opacity <= 0 ? 1 : this.opacity
+            }, 15)
+        }
+    })
+</script>
+
+</html>

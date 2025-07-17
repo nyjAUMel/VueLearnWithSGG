@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <div id="root">
+        <h2>{{n}}</h2>
+        <button @click="add">点击n自增</button>
+        <button @click="bye">点击销毁Vue实例</button>
+    </div>
+</body>
+<script>
+    const vm = new Vue({
+        el: '#root',
+        // template有且只能有一个根元素，其次会直接完全替换掉挂载的元素
+        /* template: `
+                <h2>{{n}}</h2>
+                <button @click="add">点击n自增</button>
+        `, */
+        data: {
+            n: 1
+
+        },
+        methods: {
+            add() {
+                this.n++
+            },
+            bye() {
+                this.$destroy();
+            }
+        },
+        watche: {
+            n() {
+                console.log('n变了')
+            }
+        },
+        // 这一步还无法访问data中的数据、methods中配置的方法
+        beforeCreate() {
+            console.log('beforeCreate')
+        },
+
+        // beforeCreate()和created() 中间进行创建数据监测、数据代理
+
+        // 这一步可以通过vm访问到data中的数据、methods中配置的方法
+        created() {
+            console.log('created')
+        },
+
+        // created方法和beforeMount中间这一步生成虚拟DOM(内存中)
+
+        // 到这一步页面呈现的是未经编译的DOM结构。在这一步对DOM操作最终都不会奏效
+        beforeMount() {
+            console.log('beforeMount')
+        },
+        // 这一步页面呈现经过Vue编译后的DOM。对DOM操作均有效(但尽可能避免)
+        mounted() {
+            console.log('mounted')
+            console.log(this)
+        },
+        // 到这一步时：数据是新的，但页面是旧的。也就是页面尚未和数据保持同步
+        beforeUpdate() {
+            console.log('beforeUpdate')
+            console.log(this.n)
+        },
+
+        /*
+         beforeUpdate()和updated()中间会根据新数据，生成新的虚拟DOM，随后与旧的虚拟DOM进行比较，最终完成页面更新。即：完成了Model -> View的更新
+        */
+
+        // 到这一步时：数据和页面都是新的，也就是说页面尚和数据保持同步
+        updated() {
+            console.log('updated')
+            console.log(this.n)
+        },
+        // 此处：vm中所有的data、methods、指令等等都处于可用状态，马上执行销毁过程。
+        beforeDestroy() {
+            console.log('beforeDestory')
+            this.add()
+        },
+        destroyed() { }
+    })
+</script>
+
+</html>
