@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../js/vue.js"></script>
+</head>
+
+<body>
+  <!-- 
+    需求1: 定义一个v-big指令，和v-text指令类似，但会把绑定的数值放大10倍。
+    需求2: 定义一个v-fbind指令，和v-bind功能类似，但可以让其所绑定的input元素默认获取焦点。
+
+    自定义指令总结：
+        一、定义语法：
+            (1).局部指令：
+                  new Vue({
+                    directives:{指令名：配置对象}
+                  })
+                  或者
+                  new Vue({
+                    directives:{指令名:回调函数}
+                  })
+            (2).全局指令：
+                  Vue.directive(指令名，配置对象)
+                  或者
+                  Vue.directive(指令名:回调函数)
+        二、配置对象中常用的3个回调：
+            (1).bind：指令与元素成功绑定时调用。
+            (2).inserted：指令所在元素被插入页面时调用。
+            (3).update：指令所在模板结构被重新解析时调用。
+        三、备注：
+            1.指令定义时不加v-，但使用时要加v-；
+            2.指令名如果是多个单词，要使用kebab-case命名方式，不要用camelCase命名。
+  -->
+  <div id="root">
+    <h2>当前的值是：<span v-text="n"></span></h2>
+    <h2>放大10倍后的值是：<span v-big="n"></span></h2>
+    <!-- vue推荐多个单词用 '-' 隔开 -->
+    <h2>放大10倍后的值是：<span v-big-number="n"></span></h2>
+    <button @click="n++">n累加</button>
+
+    <hr>
+    <!-- 告诉指令要对 value 进行操作 -->
+    <input type="text" v-fbind:value="n">
+  </div>
+</body>
+<script>
+
+  /* 
+  全局配置自定义指令
+
+  Vue.directive('big', {
+  bind(el, binding) {
+    el.innerText = binding.value * 10;
+  },
+  update(el, binding) {
+    el.innerText = binding.value * 10;
+  }
+  });
+  */
+  new Vue({
+    el: '#root',
+    data: {
+      name: 'Cooper',
+      n: 21,
+    },
+    directives: {
+      /* 
+      function () {} 这个函数可以接受两个参数：
+        1. el：表示绑定指令的 DOM 元素。通过这个参数可以对元素进行操作，比如设置文本内容、样式等。
+        2. binding：一个对象，包含与指令相关的数据，如传递给指令的值（value）、旧值（oldValue）等。它提供了很多属性来获取指令的详细信息。
+      
+      bing函数的执行时机：
+        1. 指令与元素初始绑定时
+        2. 指令所在的模板被重新解析时
+
+      directives配置想里的 this 指向的都是window
+      */
+      big: function (el, binding) {
+        el.innerText = binding.value * 10
+      },
+      // 用 '-' 隔开就不能省略引号了
+      'big-number'(el, binding) {
+        el.innerText = binding.value * 10
+      },
+      fbind: {
+        // 指令与元素成功绑定时
+        bind(el, binding) {
+          el.value = binding.value
+        },
+        // 指令所在元素被插入页面时
+        inserted(el, binding) {
+          el.focus()
+        },
+        // 指令所在的模板被重新解析时
+        update(el, binding) {
+          el.value = binding.value
+        }
+      }
+    }
+  })
+</script>
+
+</html>
