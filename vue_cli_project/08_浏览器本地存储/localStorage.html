@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>localStorage</title>
+</head>
+
+<body>
+    <h2>localStorage</h2>
+    <button id="addData">点击往浏览器本地存储数据</button>
+    <button id="readData">点击从浏览器本地存储读取数据</button>
+    <button id="deleteData">点击从浏览器本地存储删除数据</button>
+    <button id="clearData">点击从浏览器本地存储清除数据</button>
+    <script>
+        let p = { name: 'Cooper', age: 19 }
+        console.log(p.toString())
+        console.log(JSON.stringify(p))
+
+        document.querySelector('#addData').addEventListener('click', function () {
+            window.localStorage.setItem('un', 'Cooper')
+            // key和value必须是string，如果不是string会自动调用toString()
+            window.localStorage.setItem('num', 123)
+            // 但是对象调用toString()后存入的就成了；[object Object]。这显然不行。
+            // 所以可以用JSON.stringfy()将对象变成字符串
+            window.localStorage.setItem('person', JSON.stringify(p))
+        })
+
+        document.querySelector('#readData').addEventListener('click', function () {
+            console.log(localStorage.getItem('un'))
+            console.log(localStorage.getItem('num'))
+            console.log(JSON.parse(localStorage.getItem('person')))
+        })
+
+        document.querySelector('#deleteData').addEventListener('click', function () {
+            localStorage.removeItem('num')
+        })
+
+        document.querySelector('#clearData').addEventListener('click', function () {
+            localStorage.clear()
+        })
+    </script>
+</body>
+
+</html>

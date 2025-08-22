@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sessionStorage</title>
+</head>
+
+<body>
+    <!-- 
+    localStorage和sessionStorage的方法都是一样的，唯一的区别是localStorage存储的数据关闭浏览器后还存在。而sessionStorage关闭后就没了
+    -->
+
+    <h2>sessionStorage</h2>
+    <button id="addData">点击往浏览器本地存储数据</button>
+    <button id="readData">点击从浏览器本地存储读取数据</button>
+    <button id="deleteData">点击从浏览器本地存储删除数据</button>
+    <button id="clearData">点击从浏览器本地存储清除数据</button>
+    <script>
+        let p = { name: 'Cooper', age: 19 }
+
+        document.querySelector('#addData').addEventListener('click', function () {
+            window.sessionStorage.setItem('un', 'Cooper')
+            window.sessionStorage.setItem('num', 123)
+            window.sessionStorage.setItem('person', JSON.stringify(p))
+        })
+
+        document.querySelector('#readData').addEventListener('click', function () {
+            console.log(sessionStorage.getItem('un'))
+            console.log(sessionStorage.getItem('num'))
+            console.log(JSON.parse(sessionStorage.getItem('person')))
+        })
+
+        document.querySelector('#deleteData').addEventListener('click', function () {
+            sessionStorage.removeItem('num')
+        })
+
+        document.querySelector('#clearData').addEventListener('click', function () {
+            sessionStorage.clear()
+        })
+    </script>
+</body>
+
+</html>
