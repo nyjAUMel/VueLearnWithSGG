@@ -31,10 +31,3 @@ setTimeout(() => {
     app.unmount('#app')
 }, 3000)
 
-// vue2
-/* 
-const vm = new Vue({
-    render: h => h(App)
-})
-vm.$mount('#app')
-*/
