@@ -31,7 +31,10 @@ setTimeout(() => {
     app.unmount('#app')
 }, 3000)
 
-// vue2
+
+
+
+// vue2 写法
 /* 
 const vm = new Vue({
     render: h => h(App)
